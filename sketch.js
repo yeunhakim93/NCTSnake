@@ -10,7 +10,19 @@ var nct = [];
 var memnum = 15;
 var randnct = [];
 var cnv;
-var rstbuttonstrings = [];
+var rstbuttonstrings = [
+  "스트로니",
+  "좋은 기회로 다시 시작하기",
+  "힘들땐 힘내",
+  "산다는 거 견디는 거",
+  "내가 멤버를 찾는것이 아니라 멤버가 날 찾는것이다",
+  "메탈각설이들에게 힘 받기",
+  "략간 쫌,,, 어려운데,,,",
+  "망하려면 혼자 망하지 왜 날 영입했어요",
+  "ㅎㅎ;;",
+  "최종 목표는 세계 정복입니다. 총 아니라 무대로요.",
+  "실패... 거부하겠습니다.",
+];
 var btrack = 0;
 var pertrack = 0;
 var bc1;
@@ -18,22 +30,11 @@ var bc2;
 var bc3;
 var bc4;
 
-var rank;
-
-function centerCanvas() {
-  var x = (windowWidth - width) / 2;
-  //    var y = (windowHeight - height) / 2;
-  var y = 60;
-  cnv.position(x, y);
-}
-
 function setup() {
   cnv = createCanvas(640, 640);
   cnv.parent("sketch-holder");
   background(255);
   noStroke();
-
-  rank = loadStrings("SNAKE_RANK.txt");
 
   rk = loadImage("img/rk.png");
   sm = loadImage("img/SM.png");
@@ -41,22 +42,6 @@ function setup() {
   for (var i = 0; i < memnum; i++) {
     nct[i] = loadImage("img/nct" + i + ".png");
   }
-
-  rstbuttonstrings[0] = "스트로니";
-  rstbuttonstrings[1] = "좋은 기회로 다시 시작하기";
-  rstbuttonstrings[2] = "힘들땐 힘내";
-  rstbuttonstrings[3] = "산다는 거 견디는 거";
-  rstbuttonstrings[4] = "내가 멤버를 찾는것이 아니라 멤버가 날 찾는것이다";
-  rstbuttonstrings[5] = "메탈각설이들에게 힘 받기";
-  rstbuttonstrings[6] = "략간 쫌,,, 어려운데,,,";
-  rstbuttonstrings[7] = "망하려면 혼자 망하지 왜 날 영입했어요";
-  rstbuttonstrings[8] = "ㅎㅎ;;";
-  rstbuttonstrings[9] = "최종 목표는 세계 정복입니다. 총 아니라 무대로요.";
-  rstbuttonstrings[10] = "실패... 거부하겠습니다.";
-}
-
-function windowResized() {
-  centerCanvas();
 }
 
 function initGame() {
@@ -103,7 +88,7 @@ function startGame() {
   removeElements();
   gameState = "play";
   snake = new Snake();
-  setJelloShots(3);
+  setMembers(3);
   loop();
 }
 
@@ -123,7 +108,7 @@ function runGame() {
     if (snake.eat(shots[i])) {
       snake.tail.push(createVector(snake.x, snake.y));
       shots.splice(i, 1);
-      setJelloShots(1);
+      setMembers(1);
       randnct.push(floor(random(0, memnum)));
       if (snake.tail.length > highscore) highscore = snake.tail.length;
     }
@@ -163,6 +148,7 @@ function endGame() {
   startBtn = createButton(rstbuttonstrings[floor(random(0, 11))]);
   startBtn.position(25, 610);
   startBtn.mousePressed(startGame);
+  gameState = "stop";
 }
 
 function draw() {
@@ -247,18 +233,7 @@ function draw() {
   }
 }
 
-function changeRank(id, score) {
-  if (snake.tail.length > Number(rank[6])) {
-    rank[1] = id;
-    rank[6] = score;
-  } else if (snake.tail.length > Number(rank[7])) {
-  } else if (snake.tail.length > Number(rank[8])) {
-  } else if (snake.tail.length > Number(rank[9])) {
-  } else if (snake.tail.length > Number(rank[10])) {
-  }
-}
-
-function setJelloShots(num) {
+function setMembers(num) {
   var cols = floor(width / pixel_size);
   var rows = floor(height / pixel_size);
   for (var i = 0; i < num; i++) {
